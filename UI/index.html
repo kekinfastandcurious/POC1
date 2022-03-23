@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./index.css" rel="stylesheet">
+</head>
+<body>
+    <ul class="days">
+        <li><button>Monday</button></li>
+        <li><button>Tuesday</button></li>
+        <li><button>Wednesday</button></li>
+        <li><button>Thursday</button></li>
+        <li><button>Friday</button></li>
+        <li><button>Saturday</button></li>
+        <li><button>Sunday</button></li>
+    </ul>
+    <div class="timer-div">
+        <p class="timer"></p>
+    </div>
+    <script type="text/javascript">
+
+        const timerDiv = document.querySelector('.timer-div');
+        timerDiv.style.display = 'none';
+        
+        async function getTimeOfDay(dayName) {
+            const response = await fetch(`http://localhost:8080/${dayName}`)
+            const timeOfTheDay = await response.text();
+            timerDiv.style.display = 'flex';
+            const timerEle = document.querySelector('.timer');
+            timerEle.innerText = timeOfTheDay;
+        }
+
+        const buttons = document.querySelectorAll("button");
+
+        buttons.forEach(button=> {
+            const dayName = button.innerText.trim().toLowerCase();
+            button.addEventListener('click', () => {
+                return getTimeOfDay(dayName);
+            });
+        });
+    </script>
+</body>
+</html>
